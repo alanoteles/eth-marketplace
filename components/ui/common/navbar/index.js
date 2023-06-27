@@ -47,11 +47,11 @@ export default function Footer() {
                     Loading...
                 </Button> :
                 isWeb3Loaded ?
-                  account ?
+                  account.data ?
                   <Button
                     hoverable={false}
                     className="cursor-default">
-                    Hi There
+                    Hi There { account.isAdmin && "Admin" }
                   </Button> :
                   <Button onClick={connect}>
                     Connect
@@ -60,11 +60,18 @@ export default function Footer() {
                     Install Metamask
                 </Button>
               }
-
             </div>
           </div>
         </nav>
       </div>
+      { account &&
+        <div className="flex justify-end pt-1 sm:px-6 lg:px-8">
+          <div className="text-white bg-indigo-600 rounded-md p-2">
+            {account.data}
+          </div>
+        </div>
+
+      }
     </section>
   )
 }
