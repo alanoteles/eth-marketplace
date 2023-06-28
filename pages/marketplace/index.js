@@ -16,7 +16,11 @@ export default function Marketplace({courses}) {
           address={account.data}
           network={network.data}
         />
+        "Current:" {`${network.data}`}
+        "Target:" {`${network.target}`}
+        "Is Suppported:" {`${network.isSupported}`}
       </div>
+
       <CourseList courses={courses}>
         {course =>
           <CourseCard
