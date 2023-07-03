@@ -13,13 +13,22 @@ const targetNetwork = NETWORKS[process.env.NEXT_PUBLIC_TARGET_CHAIN_ID]
 
 export const handler = (web3, provider) => () => {
 
-  const { data, mutate, ...rest } = useSWR(() =>
+  let isLoading = true
+  let isSupported = false
+
+  const { data, error, mutate, ...rest } = useSWR(() =>
     web3 ? "web3/network" : null,
     async () => {
+      console.log("data: ", data)
+      console.log("error: ", error)
       const chainId = await web3.eth.getChainId()
+      isLoading = false
       return NETWORKS[chainId]
     }
   )
+
+  console.log("isLoading: ", isLoading)
+  console.log("error2: ", !error)
 
   useEffect(() => {
     provider &&
@@ -28,9 +37,11 @@ export const handler = (web3, provider) => () => {
       })
   }, [web3])
 
+  // debugger
   return {
     network: {
       data,
+      hasFinishedFirstFetch: data || error,
       mutate,
       target: targetNetwork,
       isSupported: data === targetNetwork,
